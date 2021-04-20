@@ -29,8 +29,10 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "0px",
         backgroundColor: "#29487d",
         color: "white",
+        opacity: 0.9,
         "&:hover": {
-            backgroundColor: "#88a2ce",
+            opacity: 1,
+            backgroundColor: "#29487d",
         },
     },
     sidebarContainer: {
@@ -58,6 +60,11 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#28787c",
         borderRadius: "0px",
         color: "white",
+        opacity: 0.9,
+        "&:hover": {
+            opacity: 1,
+            backgroundColor: "#28787c",
+        },
     },
 }));
 
@@ -81,6 +88,9 @@ const Sidebar = ({ notes, selectedNoteIndex, selectNote, deleteNote, newNote }) 
         setTitle(title);
     };
     const addNewNote = () => {
+        if (title === "") {
+            return;
+        }
         newNote(title);
         setTitle("");
         setAddingNote(false);
