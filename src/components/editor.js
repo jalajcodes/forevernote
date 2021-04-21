@@ -3,6 +3,7 @@ import Quill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { makeStyles } from "@material-ui/core/styles";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
+import { debounce } from "../lib/helpers";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "5px",
         fontSize: "24px",
         width: "calc(100% - 300px)",
-        backgroundColor: "#29487d",
+        background: "linear-gradient(to left, #09299c, #3a5dda)",
         color: "white",
         paddingLeft: "50px",
     },
@@ -38,6 +39,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const TOOLBAR_OPTIONS = [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ font: [] }],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["bold", "italic", "underline"],
+    [{ color: [] }, { background: [] }],
+    [{ script: "sub" }, { script: "super" }],
+    [{ align: [] }],
+    ["image", "blockquote", "code-block"],
+    ["clean"],
+];
+
 const Editor = ({ notes, selectedNote, selectedNoteIndex, noteUpdate }) => {
     const [text, setText] = useState(selectedNote && selectedNote.body);
     const [title, setTitle] = useState(selectedNote && selectedNote.title);
@@ -51,21 +64,27 @@ const Editor = ({ notes, selectedNote, selectedNoteIndex, noteUpdate }) => {
         setId(selectedNote.id);
     }, [selectedNote]);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         noteUpdate(id, { title, body: text });
+    //     }, 1500);
+
+    //     return () => clearTimeout(timer);
+    // }, [update, id, title, text]);
+    function updateDB() {
+        debounce(() => {
             noteUpdate(id, { title, body: text });
         }, 1500);
-
-        return () => clearTimeout(timer);
-    }, [update]);
-
+    }
     function updateBody(val) {
         setText(val);
-        setUpdate((prev) => prev + 1);
+        updateDB();
+        // setUpdate((prev) => prev + 1);
     }
     function updateTitle(val) {
         setTitle(val);
-        setUpdate((prev) => prev + 1);
+        updateDB();
+        // setUpdate((prev) => prev + 1);
     }
 
     return (
@@ -76,7 +95,12 @@ const Editor = ({ notes, selectedNote, selectedNoteIndex, noteUpdate }) => {
                 placeholder="Note title..."
                 value={title ? title : ""}
                 onChange={(e) => updateTitle(e.target.value)}></input>
-            <Quill theme="snow" value={text} onChange={updateBody} />
+            <Quill
+                theme="snow"
+                value={text}
+                onChange={updateBody}
+                modules={{ toolbar: TOOLBAR_OPTIONS }}
+            />
         </div>
     );
 };

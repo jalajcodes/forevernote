@@ -7,6 +7,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 const useStyles = makeStyles((theme) => ({
     listItem: {
         cursor: "pointer",
+        ".MuiListItem-root.Mui-selected": {
+            background: "linear-gradient(to left, #09299c, #3a5dda)",
+        },
     },
     textSection: {
         maxWidth: "85%",
