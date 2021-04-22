@@ -2,7 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import { Divider, Button } from "@material-ui/core";
-import SidebarItem from "./sidebarItem";
+import Exit from "@material-ui/icons/ExitToApp";
+import SidebarItem from "./SidebarItem";
+import { useAuth } from "../hooks/useAuth";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,29 +15,22 @@ const useStyles = makeStyles((theme) => ({
         width: "300px",
         boxShadow: "0px 0px 2px black",
     },
-    newChatBtn: {
-        borderRadius: "0px",
-    },
-    unreadMessage: {
-        color: "red",
-        position: "absolute",
-        top: "0",
-        right: "5px",
-    },
     newNoteBtn: {
         width: "100%",
-        height: "35px",
-        borderBottom: "1px solid black",
+        height: "50px",
+        // borderBottom: "1px solid black",
         borderRadius: "0px",
-        backgroundColor: "#29487d",
+        backgroundColor: "#09299c",
         color: "white",
         opacity: 0.9,
         "&:hover": {
             opacity: 1,
-            backgroundColor: "#29487d",
+            backgroundColor: "#09299c",
         },
     },
     sidebarContainer: {
+        background: "#fff",
+        position: "relative",
         marginTop: "0px",
         width: "300px",
         height: "100%",
@@ -57,21 +52,44 @@ const useStyles = makeStyles((theme) => ({
     },
     newNoteSubmitBtn: {
         width: "100%",
-        backgroundColor: "#28787c",
+        background: "linear-gradient(to left, #09299c, #3a5dda)",
         borderRadius: "0px",
         color: "white",
         opacity: 0.9,
+        transition: "all 3s",
         "&:hover": {
             opacity: 1,
-            backgroundColor: "#28787c",
+            background: "linear-gradient(to left, #3a5dda, #09299c)",
         },
+    },
+    userInfoPanel: {
+        position: "absolute",
+        bottom: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        backgroundColor: "#09299c",
+        color: "#fff",
+        width: "100%",
+        padding: "10px",
+    },
+    logoutIcon: {
+        cursor: "pointer",
     },
 }));
 
-const Sidebar = ({ notes, selectedNoteIndex, selectNote, deleteNote, newNote }) => {
+const Sidebar = ({
+    notes,
+    selectedNoteIndex,
+    selectNote,
+    deleteNote,
+    newNote,
+    setSelectedNote,
+}) => {
     const [addingNote, setAddingNote] = useState(false);
     const [title, setTitle] = useState("");
     const inputRef = useRef();
+    const { user, signout } = useAuth();
 
     const classes = useStyles();
 
@@ -95,7 +113,10 @@ const Sidebar = ({ notes, selectedNoteIndex, selectNote, deleteNote, newNote }) 
         setTitle("");
         setAddingNote(false);
     };
-    // const selectNote = (n, i) => ;
+    const handleLogoutBtnClick = () => {
+        console.log("logout");
+        signout();
+    };
 
     return (
         <div className={classes.sidebarContainer}>
@@ -131,6 +152,16 @@ const Sidebar = ({ notes, selectedNoteIndex, selectNote, deleteNote, newNote }) 
                         );
                     })}
             </List>
+            {user && (
+                <div className={classes.userInfoPanel}>
+                    {user.email}{" "}
+                    <Exit
+                        onClick={handleLogoutBtnClick}
+                        className={classes.logoutIcon}
+                        titleAccess={"Logout"}
+                    />
+                </div>
+            )}
         </div>
     );
 };

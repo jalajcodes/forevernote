@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
-import "firebase/storage";
 import "firebase/firestore";
+import "firebase/auth";
 
 firebase.initializeApp({
     apiKey: process.env.REACT_APP_APIKEY,
@@ -12,8 +12,8 @@ firebase.initializeApp({
     measurementId: process.env.REACT_APP_MEASUREMENTID,
 });
 
-// const projectStorage = firebase.storage();
+const projectAuth = firebase.auth();
 const projectFirestore = firebase.firestore();
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
-export { projectFirestore, timestamp };
+export { projectFirestore, projectAuth, timestamp };

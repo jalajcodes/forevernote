@@ -25,7 +25,8 @@ const SidebarItem = ({ _note, _index, selectedNoteIndex, selectNote, deleteNote 
     const classes = useStyles();
 
     // const handleSelectNote = (n, i) => selectNote(n, i);
-    const handleDeleteNote = (n) => {
+    const handleDeleteNote = (e, n) => {
+        e.stopPropagation();
         if (window.confirm(`Are you sure you want to delete: ${n.title}`)) {
             deleteNote(n);
         }
@@ -35,8 +36,9 @@ const SidebarItem = ({ _note, _index, selectedNoteIndex, selectNote, deleteNote 
             <ListItem
                 className={classes.listItem}
                 selected={selectedNoteIndex === _index}
+                onClick={() => selectNote(_note, _index)}
                 alignItems="flex-start">
-                <div className={classes.textSection} onClick={() => selectNote(_note, _index)}>
+                <div className={classes.textSection}>
                     <ListItemText
                         primary={_note.title}
                         secondary={
@@ -44,7 +46,7 @@ const SidebarItem = ({ _note, _index, selectedNoteIndex, selectNote, deleteNote 
                         }></ListItemText>
                 </div>
                 <DeleteIcon
-                    onClick={() => handleDeleteNote(_note)}
+                    onClick={(e) => handleDeleteNote(e, _note)}
                     className={classes.deleteIcon}
                 />
             </ListItem>

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "5px",
         fontSize: "24px",
         width: "calc(100% - 300px)",
-        backgroundColor: "#29487d",
+        background: "linear-gradient(to left, #09299c, #3a5dda)",
         color: "white",
         paddingLeft: "50px",
     },
@@ -35,8 +35,21 @@ const useStyles = makeStyles((theme) => ({
     editorContainer: {
         height: "100%",
         boxSizing: "border-box",
+        backgroundColor: "white",
     },
 }));
+
+const TOOLBAR_OPTIONS = [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ font: [] }],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["bold", "italic", "underline"],
+    [{ color: [] }, { background: [] }],
+    [{ script: "sub" }, { script: "super" }],
+    [{ align: [] }],
+    ["image", "blockquote", "code-block"],
+    ["clean"],
+];
 
 const Editor = ({ notes, selectedNote, selectedNoteIndex, noteUpdate }) => {
     const [text, setText] = useState(selectedNote && selectedNote.body);
@@ -57,7 +70,7 @@ const Editor = ({ notes, selectedNote, selectedNoteIndex, noteUpdate }) => {
         }, 1500);
 
         return () => clearTimeout(timer);
-    }, [update]);
+    }, [update, noteUpdate, title, text, id]);
 
     function updateBody(val) {
         setText(val);
@@ -76,7 +89,12 @@ const Editor = ({ notes, selectedNote, selectedNoteIndex, noteUpdate }) => {
                 placeholder="Note title..."
                 value={title ? title : ""}
                 onChange={(e) => updateTitle(e.target.value)}></input>
-            <Quill theme="snow" value={text} onChange={updateBody} />
+            <Quill
+                theme="snow"
+                value={text}
+                onChange={updateBody}
+                modules={{ toolbar: TOOLBAR_OPTIONS }}
+            />
         </div>
     );
 };
