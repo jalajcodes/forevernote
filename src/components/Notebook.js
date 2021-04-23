@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { projectFirestore, timestamp } from "../lib/firebase";
+import { projectFirestore } from "../lib/firebase";
 import Editor from "./Editor";
 import Sidebar from "./Sidebar";
 import { useAuth } from "../hooks/useAuth";
@@ -44,7 +44,7 @@ const Notebook = () => {
             title,
             body: note.body,
             author: user.email,
-            timestamp,
+            // timestamp,
         });
         const newId = newFromDB.id;
         setNotes([...notes, note]);
@@ -79,7 +79,7 @@ const Notebook = () => {
                 title: note.title,
                 body: note.body,
                 author: user.email,
-                timestamp,
+                // timestamp,
             });
         }
     };
@@ -98,6 +98,7 @@ const Notebook = () => {
                 newNote={newNote}
                 deleteNote={deleteNote}
             />
+
             {selectedNote ? (
                 <Editor
                     selectedNote={selectedNote}

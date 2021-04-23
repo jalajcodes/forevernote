@@ -3,7 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import { Divider, Button } from "@material-ui/core";
 import Exit from "@material-ui/icons/ExitToApp";
+import PostAddIcon from "@material-ui/icons/PostAdd";
+// import ArrowBackIosRoundedIcon from "@material-ui/icons/ArrowBackIosRounded";
+// import ArrowForwardIosRoundedIcon from "@material-ui/icons/ArrowForwardIosRounded";
 import SidebarItem from "./SidebarItem";
+// import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useAuth } from "../hooks/useAuth";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,10 +19,23 @@ const useStyles = makeStyles((theme) => ({
         width: "300px",
         boxShadow: "0px 0px 2px black",
     },
+    mainBar: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        backgroundColor: "#09299c",
+        color: "#fff",
+
+        "& h1": {
+            fontFamily: "Lobster",
+            display: "inline",
+            letterSpacing: "2px",
+            padding: "0 0 0 15px",
+            pointerEvents: "none",
+        },
+    },
     newNoteBtn: {
-        width: "100%",
         height: "50px",
-        // borderBottom: "1px solid black",
         borderRadius: "0px",
         backgroundColor: "#09299c",
         color: "white",
@@ -29,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     sidebarContainer: {
-        background: "#fff",
+        background: "#eee",
         position: "relative",
         marginTop: "0px",
         width: "300px",
@@ -52,14 +69,14 @@ const useStyles = makeStyles((theme) => ({
     },
     newNoteSubmitBtn: {
         width: "100%",
-        background: "linear-gradient(to left, #09299c, #3a5dda)",
         borderRadius: "0px",
         color: "white",
-        opacity: 0.9,
-        transition: "all 3s",
+        backgroundColor: "#09299c",
+        opacity: 1,
+        transition: "all .3s",
         "&:hover": {
-            opacity: 1,
-            background: "linear-gradient(to left, #3a5dda, #09299c)",
+            opacity: 0.9,
+            backgroundColor: "#09299c",
         },
     },
     userInfoPanel: {
@@ -67,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
         bottom: 0,
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "flex-start",
         backgroundColor: "#09299c",
         color: "#fff",
         width: "100%",
@@ -75,23 +92,35 @@ const useStyles = makeStyles((theme) => ({
     },
     logoutIcon: {
         cursor: "pointer",
+        marginRight: "15px",
+    },
+    menuToggle: {
+        cursor: "pointer",
+        backgroundColor: "#09299c",
+        width: "40px",
+        height: "40px",
+        display: "grid",
+        placeItems: "center",
+        color: "#fff",
+        position: "absolute",
+        bottom: 0,
+        right: "0",
     },
 }));
 
-const Sidebar = ({
-    notes,
-    selectedNoteIndex,
-    selectNote,
-    deleteNote,
-    newNote,
-    setSelectedNote,
-}) => {
+const Sidebar = ({ notes, selectedNoteIndex, selectNote, deleteNote, newNote }) => {
     const [addingNote, setAddingNote] = useState(false);
+    // const [mobileOpen, setMobileOpen] = useState(true);
     const [title, setTitle] = useState("");
     const inputRef = useRef();
+    const sidebarRef = useRef();
     const { user, signout } = useAuth();
-
     const classes = useStyles();
+    // const matches = useMediaQuery("(max-width:680px)");
+
+    // const toggleMenu = () => {
+    //     setMobileOpen((prev) => !prev);
+    // };
 
     const newNoteBtnClick = () => {
         setAddingNote((prev) => !prev);
@@ -119,10 +148,13 @@ const Sidebar = ({
     };
 
     return (
-        <div className={classes.sidebarContainer}>
-            <Button onClick={newNoteBtnClick} className={classes.newNoteBtn}>
-                New Note
-            </Button>
+        <div ref={sidebarRef} className={classes.sidebarContainer}>
+            <div className={classes.mainBar}>
+                <h1>Forevernote</h1>
+                <Button onClick={newNoteBtnClick} className={classes.newNoteBtn}>
+                    <PostAddIcon />
+                </Button>
+            </div>
             {addingNote ? (
                 <div>
                     <input
@@ -154,14 +186,23 @@ const Sidebar = ({
             </List>
             {user && (
                 <div className={classes.userInfoPanel}>
-                    {user.email}{" "}
                     <Exit
                         onClick={handleLogoutBtnClick}
                         className={classes.logoutIcon}
                         titleAccess={"Logout"}
                     />
+                    {user.email}{" "}
                 </div>
             )}
+            {/* {matches && (
+                <div className={classes.menuToggle} onClick={toggleMenu}>
+                    {mobileOpen ? (
+                        <ArrowBackIosRoundedIcon titleAccess="Close Menu" />
+                    ) : (
+                        <ArrowForwardIosRoundedIcon titleAccess="Open Menu" />
+                    )}
+                </div>
+            )} */}
         </div>
     );
 };

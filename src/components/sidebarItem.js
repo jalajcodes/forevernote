@@ -2,11 +2,15 @@ import { ListItem, ListItemText } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { removeHTMLTags } from "../lib/helpers";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteOutlineRoundedIcon from "@material-ui/icons/DeleteOutlineRounded";
 
 const useStyles = makeStyles((theme) => ({
     listItem: {
         cursor: "pointer",
+        backgroundColor: "#fff",
+        "&:hover": {
+            backgroundColor: "#eee",
+        },
     },
     textSection: {
         maxWidth: "85%",
@@ -16,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         right: "5px",
         top: "calc(50% - 15px)",
         "&:hover": {
-            color: "red",
+            color: "#dd0000",
         },
     },
 }));
@@ -24,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
 const SidebarItem = ({ _note, _index, selectedNoteIndex, selectNote, deleteNote }) => {
     const classes = useStyles();
 
-    // const handleSelectNote = (n, i) => selectNote(n, i);
     const handleDeleteNote = (e, n) => {
         e.stopPropagation();
         if (window.confirm(`Are you sure you want to delete: ${n.title}`)) {
@@ -45,7 +48,7 @@ const SidebarItem = ({ _note, _index, selectedNoteIndex, selectNote, deleteNote 
                             removeHTMLTags(_note.body.substring(0, 30)) + "..."
                         }></ListItemText>
                 </div>
-                <DeleteIcon
+                <DeleteOutlineRoundedIcon
                     onClick={(e) => handleDeleteNote(e, _note)}
                     className={classes.deleteIcon}
                 />
