@@ -32,6 +32,7 @@ code {
 
 /* Track */
 ::-webkit-scrollbar-track {
+    margin-top: 80px;
     border-radius: 0px;
 }
 

@@ -4,10 +4,7 @@ import List from "@material-ui/core/List";
 import { Divider, Button } from "@material-ui/core";
 import Exit from "@material-ui/icons/ExitToApp";
 import PostAddIcon from "@material-ui/icons/PostAdd";
-// import ArrowBackIosRoundedIcon from "@material-ui/icons/ArrowBackIosRounded";
-// import ArrowForwardIosRoundedIcon from "@material-ui/icons/ArrowForwardIosRounded";
 import SidebarItem from "./SidebarItem";
-// import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useAuth } from "../hooks/useAuth";
 
 const useStyles = makeStyles((theme) => ({
@@ -53,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
         height: "100%",
         boxSizing: "border-box",
         float: "left",
+        paddingBottom: "40px",
         overflowY: "scroll",
         overflowX: "hidden",
     },
@@ -80,19 +78,18 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     userInfoPanel: {
-        position: "absolute",
+        position: "fixed",
         bottom: 0,
         display: "flex",
         alignItems: "center",
-        justifyContent: "flex-start",
+        justifyContent: "space-between",
         backgroundColor: "#09299c",
         color: "#fff",
-        width: "100%",
+        width: "290px",
         padding: "10px",
     },
     logoutIcon: {
         cursor: "pointer",
-        marginRight: "15px",
     },
     menuToggle: {
         cursor: "pointer",
@@ -116,11 +113,6 @@ const Sidebar = ({ notes, selectedNoteIndex, selectNote, deleteNote, newNote }) 
     const sidebarRef = useRef();
     const { user, signout } = useAuth();
     const classes = useStyles();
-    // const matches = useMediaQuery("(max-width:680px)");
-
-    // const toggleMenu = () => {
-    //     setMobileOpen((prev) => !prev);
-    // };
 
     const newNoteBtnClick = () => {
         setAddingNote((prev) => !prev);
@@ -168,41 +160,34 @@ const Sidebar = ({ notes, selectedNoteIndex, selectNote, deleteNote, newNote }) 
                     </Button>
                 </div>
             ) : null}
-            <List>
-                {notes &&
-                    notes.map((_note, _index) => {
-                        return (
-                            <div key={_index}>
-                                <SidebarItem
-                                    _note={_note}
-                                    _index={_index}
-                                    selectedNoteIndex={selectedNoteIndex}
-                                    selectNote={selectNote}
-                                    deleteNote={deleteNote}></SidebarItem>
-                                <Divider></Divider>
-                            </div>
-                        );
-                    })}
-            </List>
+            <div className={classes.noteList}>
+                <List>
+                    {notes &&
+                        notes.map((_note, _index) => {
+                            return (
+                                <div key={_index}>
+                                    <SidebarItem
+                                        _note={_note}
+                                        _index={_index}
+                                        selectedNoteIndex={selectedNoteIndex}
+                                        selectNote={selectNote}
+                                        deleteNote={deleteNote}></SidebarItem>
+                                    <Divider></Divider>
+                                </div>
+                            );
+                        })}
+                </List>
+            </div>
             {user && (
                 <div className={classes.userInfoPanel}>
+                    {user.email}{" "}
                     <Exit
                         onClick={handleLogoutBtnClick}
                         className={classes.logoutIcon}
                         titleAccess={"Logout"}
                     />
-                    {user.email}{" "}
                 </div>
             )}
-            {/* {matches && (
-                <div className={classes.menuToggle} onClick={toggleMenu}>
-                    {mobileOpen ? (
-                        <ArrowBackIosRoundedIcon titleAccess="Close Menu" />
-                    ) : (
-                        <ArrowForwardIosRoundedIcon titleAccess="Open Menu" />
-                    )}
-                </div>
-            )} */}
         </div>
     );
 };

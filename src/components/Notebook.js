@@ -40,14 +40,13 @@ const Notebook = () => {
             title: title,
             body: "",
         };
+        setNotes([...notes, note]);
         const newFromDB = await projectFirestore.collection("notes").add({
             title,
             body: note.body,
             author: user.email,
-            // timestamp,
         });
         const newId = newFromDB.id;
-        setNotes([...notes, note]);
         setNewNoteId(newId);
     };
 
@@ -79,7 +78,6 @@ const Notebook = () => {
                 title: note.title,
                 body: note.body,
                 author: user.email,
-                // timestamp,
             });
         }
     };
