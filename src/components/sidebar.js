@@ -127,7 +127,7 @@ const Sidebar = ({
   searchNotes,
 }) => {
   const [addingNote, setAddingNote] = useState(false);
-  const [searchingNote, setSearchingNote] = useState(true);
+  const [searchingNote, setSearchingNote] = useState(false);
   const [title, setTitle] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState(null);
