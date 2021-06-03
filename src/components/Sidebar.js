@@ -166,6 +166,7 @@ const Sidebar = ({
         setSelectedNoteIndex(findCurrentlySelectedNoteIndex());
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
   const newNoteBtnClick = () => {

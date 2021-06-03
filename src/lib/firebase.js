@@ -3,13 +3,13 @@ import "firebase/firestore";
 import "firebase/auth";
 
 firebase.initializeApp({
-    apiKey: process.env.REACT_APP_APIKEY,
-    authDomain: process.env.REACT_APP_AUTHDOMAIN,
-    projectId: process.env.REACT_APP_PROJECTID,
-    storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
-    appId: process.env.REACT_APP_APPID,
-    measurementId: process.env.REACT_APP_MEASUREMENTID,
+    apiKey: "AIzaSyDWQpOUW2R3auewGorMBhcJamfGuWEZlvg",
+    authDomain: "forevernote-f80da.firebaseapp.com",
+    projectId: "forevernote-f80da",
+    storageBucket: "forevernote-f80da.appspot.com",
+    messagingSenderId: "395114551827",
+    appId: "1:395114551827:web:69a6ea5513794d4a5cfde6",
+    measurementId: "G-1GLLNC05XP"
 });
 
 const projectAuth = firebase.auth();
